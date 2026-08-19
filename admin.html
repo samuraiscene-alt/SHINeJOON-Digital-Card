@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHINeJOON 관리자</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="admin-wrap">
+  <div class="admin-head"><div><p class="eyebrow">ADMIN DEMO</p><h1>명함 정보 수정</h1></div><a href="index.html">명함 보기 →</a></div>
+  <form id="form" class="form-card">
+    <div class="field"><label>이름</label><input id="name" value="신이준"></div>
+    <div class="field"><label>영문/브랜드명</label><input id="subname" value="SHINeJOON"></div>
+    <div class="field"><label>한 줄 프로필</label><input id="bio" placeholder="예: Artist · Creative Director"></div>
+    <div class="field"><label>About Me</label><textarea id="about" placeholder="짧은 자기소개를 입력하세요."></textarea></div>
+    <div class="field"><label>전화번호</label><input value="010-5222-7428" disabled></div>
+    <div class="field"><label>이메일</label><input value="samuraiscene@gmail.com" disabled></div>
+    <div class="field"><label>Instagram</label><input value="@shine_joon" disabled></div>
+    <div class="field"><label>주소</label><input value="서울시 성북구 성북로" disabled></div>
+    <button class="save" type="submit">저장</button>
+    <p class="notice">현재 버전은 화면 검수용 데모라 변경 내용이 이 브라우저에만 저장됩니다. 실제 운영 버전에서는 Supabase 로그인·DB·Storage를 연결해 어떤 기기에서 수정해도 즉시 반영되도록 바꿉니다.</p>
+  </form>
+</main>
+<script>
+const s=JSON.parse(localStorage.getItem('shinejoonCard')||'{}');
+['name','subname','bio','about'].forEach(k=>{if(s[k])document.getElementById(k).value=s[k]});
+document.getElementById('form').addEventListener('submit',e=>{
+ e.preventDefault();
+ const data={};['name','subname','bio','about'].forEach(k=>data[k]=document.getElementById(k).value.trim());
+ localStorage.setItem('shinejoonCard',JSON.stringify(data)); alert('저장했습니다. 명함 보기에서 확인하세요.');
+});
+</script>
+</body>
+</html>

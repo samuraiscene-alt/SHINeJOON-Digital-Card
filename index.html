@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#090b0f" />
+  <title>SHINeJOON | Digital Card</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <img id="profileImage" class="profile" src="profile.jpeg" alt="신이준 프로필 사진" />
+      <p class="eyebrow">DIGITAL CARD</p>
+      <h1 id="displayName">신이준</h1>
+      <p id="displaySubName" class="subname">SHINeJOON</p>
+      <p id="displayBio" class="bio">프로필 문구를 관리자 화면에서 추가할 수 있습니다.</p>
+    </section>
+
+    <section class="quick-grid">
+      <a class="quick" href="tel:01052227428"><span>☎</span><b>전화</b></a>
+      <a class="quick" href="sms:01052227428"><span>✉</span><b>문자</b></a>
+      <a class="quick" href="mailto:samuraiscene@gmail.com"><span>＠</span><b>이메일</b></a>
+      <a class="quick" target="_blank" rel="noopener" href="https://www.instagram.com/shine_joon"><span>◎</span><b>Instagram</b></a>
+    </section>
+
+    <section class="card stack">
+      <a class="row" href="shinejoon.vcf" download>
+        <span class="ico">👤</span><span><b>연락처 한 번에 저장</b><small>전화 · 이메일 · 인스타 · 주소</small></span><span>›</span>
+      </a>
+      <button class="row disabled" data-label="카카오톡">
+        <span class="ico">💬</span><span><b>카카오톡</b><small>오픈채팅/채널 링크 추가 예정</small></span><span>+</span>
+      </button>
+      <a class="row" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C+%EC%84%B1%EB%B6%81%EA%B5%AC+%EC%84%B1%EB%B6%81%EB%A1%9C">
+        <span class="ico">📍</span><span><b>지도 보기</b><small>서울시 성북구 성북로</small></span><span>›</span>
+      </a>
+      <button class="row" id="shareBtn">
+        <span class="ico">🔗</span><span><b>명함 공유하기</b><small>현재 페이지 주소 공유</small></span><span>›</span>
+      </button>
+    </section>
+
+    <section class="card">
+      <div class="section-title"><span>📝</span><b>About Me</b></div>
+      <p id="aboutText" class="muted">소개글을 추가하면 이 영역에 표시됩니다.</p>
+    </section>
+
+    <section class="card">
+      <div class="section-title"><span>🖼️</span><b>Gallery</b></div>
+      <div class="gallery">
+        <img src="profile.jpeg" alt="갤러리 이미지 1" />
+        <button class="gallery-add" type="button">사진 추가 예정</button>
+        <button class="gallery-add" type="button">사진 추가 예정</button>
+      </div>
+    </section>
+
+    <section class="card links">
+      <button class="mini disabled" data-label="개인 홈페이지">🌐 홈페이지/포트폴리오</button>
+      <button class="mini disabled" data-label="YouTube">▶ YouTube</button>
+      <button class="mini disabled" data-label="TikTok">♪ TikTok</button>
+      <button class="mini disabled" data-label="Facebook">f Facebook</button>
+    </section>
+
+    <section class="card qr-card">
+      <div>
+        <div class="section-title"><span>▦</span><b>내 명함 QR</b></div>
+        <p class="muted">배포 주소가 정해지면 이곳에 실제 QR이 표시됩니다.</p>
+      </div>
+      <div id="qrBox" class="qr-placeholder">QR</div>
+    </section>
+
+    <footer>
+      <p>SHINeJOON DIGITAL CARD</p>
+      <a href="admin.html">관리자</a>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
