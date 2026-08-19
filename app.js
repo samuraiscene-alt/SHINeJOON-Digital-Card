@@ -10,3 +10,69 @@ if(saved.name) $('#displayName').textContent=saved.name;
 if(saved.subname) $('#displaySubName').textContent=saved.subname;
 if(saved.bio) $('#displayBio').textContent=saved.bio;
 if(saved.about) $('#aboutText').textContent=saved.about;
+(async function loadSupabaseProfile() {
+  const url = 'https://rvhqsgrlrumjwnukapny.supabase.co';
+  const key = 'sb_publishable_0qcdqSbgpRgYqSSlIwPpVA_wckk7bKY';
+
+  try {
+    const response = await fetch(
+      `${url}/rest/v1/profile?select=*&order=id.asc&limit=1`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`
+        }
+      }
+    );
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const rows = await response.json();
+    if (!rows.length) throw new Error('No profile data');
+
+    const p = rows[0];
+
+    if (p.name) {
+      document.querySelector('#displayName').textContent = p.name;
+    }
+
+    if (p.bio) {
+      document.querySelector('#displayBio').textContent = p.bio;
+    }
+
+    if (p.about) {
+      document.querySelector('#aboutText').textContent = p.about;
+    }
+
+    const quick = document.querySelectorAll('.quick');
+
+    if (p.phone) {
+      const phone = p.phone.replace(/[^0-9+]/g, '');
+      quick[0].href = `tel:${phone}`;
+      quick[1].href = `sms:${phone}`;
+    }
+
+    if (p.email) {
+      quick[2].href = `mailto:${p.email}`;
+    }
+
+    if (p.instagram) {
+      quick[3].href = p.instagram;
+    }
+
+    const map = document.querySelector('a[href*="google.com/maps/search"]');
+
+    if (map && p.address) {
+      map.href =
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.address)}`;
+
+      const addressText = map.querySelector('small');
+      if (addressText) addressText.textContent = p.address;
+    }
+
+    console.log('Supabase profile loaded', p);
+
+  } catch (error) {
+    console.error('Supabase connection failed:', error);
+  }
+})();
