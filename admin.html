@@ -1,65 +1,534 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SHINeJOON 관리자</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080b10;
+      color: #f5f7fa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .wrap {
+      width: min(100%, 680px);
+      margin: auto;
+      padding: 32px 20px 60px;
+    }
+
+    .eyebrow {
+      color: #7d8da3;
+      letter-spacing: .22em;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      font-size: 34px;
+    }
+
+    .sub {
+      color: #8d98a8;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: #111720;
+      border: 1px solid #273140;
+      border-radius: 24px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      color: #aeb8c6;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid #303b4a;
+      border-radius: 14px;
+      background: #0a0f16;
+      color: white;
+      padding: 15px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #7fa7ff;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 15px;
+      padding: 16px;
+      margin-top: 22px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #f2f5fa;
+      color: #07090d;
+    }
+
+    .logout {
+      background: #202734;
+      color: white;
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 16px;
+      color: #9ca9bb;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .toprow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .toprow a {
+      color: #b6c7e4;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 
 <body>
 
-  <main class="admin-page">
+<div class="wrap">
 
-    <h1>SHINeJOON 관리자</h1>
-    <p>디지털 명함 정보 수정</p>
+  <div class="toprow">
+    <div>
+      <div class="eyebrow">ADMIN</div>
+      <h1>SHINeJOON</h1>
+    </div>
+    <a href="./">명함 보기 →</a>
+  </div>
+
+  <p class="sub">디지털 명함 관리자</p>
+
+  <!-- 로그인 -->
+  <section id="loginBox" class="card">
+
+    <h2>관리자 로그인</h2>
+
+    <label>이메일</label>
+    <input
+      id="loginEmail"
+      type="email"
+      autocomplete="username"
+      placeholder="관리자 이메일"
+    >
+
+    <label>비밀번호</label>
+    <input
+      id="loginPassword"
+      type="password"
+      autocomplete="current-password"
+      placeholder="비밀번호"
+    >
+
+    <button id="loginBtn" class="primary">
+      로그인
+    </button>
+
+    <div id="loginStatus" class="status"></div>
+
+  </section>
+
+
+  <!-- 관리자 수정 화면 -->
+  <section id="adminBox" class="card hidden">
+
+    <h2>명함 정보 수정</h2>
 
     <form id="adminForm">
 
       <label>이름</label>
-      <input type="text" id="name">
+      <input id="name" type="text">
+
+      <label>한 줄 프로필</label>
+      <input id="bio" type="text">
+
+      <label>About Me</label>
+      <textarea id="about"></textarea>
 
       <label>전화번호</label>
-      <input type="tel" id="phone">
+      <input id="phone" type="tel">
 
       <label>이메일</label>
-      <input type="email" id="email">
+      <input id="email" type="email">
 
       <label>Instagram</label>
-      <input type="text" id="instagram">
+      <input id="instagram" type="text">
 
       <label>주소</label>
-      <input type="text" id="address">
+      <input id="address" type="text">
 
-      <button type="submit">저장하기</button>
+      <button class="primary" type="submit">
+        저장하기
+      </button>
 
     </form>
 
-    <p id="message"></p>
+    <div id="saveStatus" class="status"></div>
 
-  </main>
+    <button id="logoutBtn" class="logout">
+      로그아웃
+    </button>
 
-  <script>
-    const form = document.getElementById('adminForm');
-    const message = document.getElementById('message');
+  </section>
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+</div>
 
-      const data = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        instagram: document.getElementById('instagram').value,
-        address: document.getElementById('address').value
-      };
 
-      localStorage.setItem('shinejoonCard', JSON.stringify(data));
+<script>
 
-      message.textContent = '저장되었습니다.';
-    });
-  </script>
+const SUPABASE_URL =
+  'https://rvhqsgrlrumjwnukapny.supabase.co';
+
+const SUPABASE_KEY =
+  'sb_publishable_0qcdqSbgpRgYqSSlIwPpVA_wckk7bKY';
+
+
+let accessToken = null;
+
+
+const loginBox =
+  document.getElementById('loginBox');
+
+const adminBox =
+  document.getElementById('adminBox');
+
+const loginStatus =
+  document.getElementById('loginStatus');
+
+const saveStatus =
+  document.getElementById('saveStatus');
+
+
+document
+  .getElementById('loginBtn')
+  .addEventListener('click', login);
+
+
+document
+  .getElementById('logoutBtn')
+  .addEventListener('click', logout);
+
+
+document
+  .getElementById('adminForm')
+  .addEventListener('submit', saveProfile);
+
+
+
+async function login() {
+
+  const email =
+    document.getElementById('loginEmail').value.trim();
+
+  const password =
+    document.getElementById('loginPassword').value;
+
+
+  if (!email || !password) {
+    loginStatus.textContent =
+      '이메일과 비밀번호를 입력하세요.';
+    return;
+  }
+
+
+  loginStatus.textContent =
+    '로그인 확인 중...';
+
+
+  try {
+
+    const response = await fetch(
+      `${SUPABASE_URL}/auth/v1/token?grant_type=password`,
+      {
+        method: 'POST',
+
+        headers: {
+          apikey: SUPABASE_KEY,
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+          email,
+          password
+        })
+      }
+    );
+
+
+    const result =
+      await response.json();
+
+
+    if (!response.ok) {
+      throw new Error(
+        result.error_description ||
+        result.msg ||
+        '로그인 실패'
+      );
+    }
+
+
+    accessToken =
+      result.access_token;
+
+
+    sessionStorage.setItem(
+      'adminToken',
+      accessToken
+    );
+
+
+    loginBox.classList.add('hidden');
+
+    adminBox.classList.remove('hidden');
+
+
+    await loadProfile();
+
+
+  } catch (error) {
+
+    loginStatus.textContent =
+      '로그인 실패: 이메일 또는 비밀번호를 확인하세요.';
+
+    console.error(error);
+  }
+}
+
+
+
+async function loadProfile() {
+
+  saveStatus.textContent =
+    '명함 정보를 불러오는 중...';
+
+
+  try {
+
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/profile?select=*&order=id.asc&limit=1`,
+      {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+
+
+    if (!response.ok) {
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+    }
+
+
+    const rows =
+      await response.json();
+
+
+    if (!rows.length) {
+      throw new Error(
+        '명함 데이터가 없습니다.'
+      );
+    }
+
+
+    const p = rows[0];
+
+
+    document.getElementById('name').value =
+      p.name || '';
+
+    document.getElementById('bio').value =
+      p.bio || '';
+
+    document.getElementById('about').value =
+      p.about || '';
+
+    document.getElementById('phone').value =
+      p.phone || '';
+
+    document.getElementById('email').value =
+      p.email || '';
+
+    document.getElementById('instagram').value =
+      p.instagram || '';
+
+    document.getElementById('address').value =
+      p.address || '';
+
+
+    saveStatus.textContent =
+      '현재 명함 정보를 불러왔습니다.';
+
+
+  } catch (error) {
+
+    saveStatus.textContent =
+      '명함 정보를 불러오지 못했습니다.';
+
+    console.error(error);
+  }
+}
+
+
+
+async function saveProfile(event) {
+
+  event.preventDefault();
+
+
+  if (!accessToken) {
+    saveStatus.textContent =
+      '다시 로그인해주세요.';
+    return;
+  }
+
+
+  const data = {
+
+    name:
+      document.getElementById('name').value.trim(),
+
+    bio:
+      document.getElementById('bio').value.trim(),
+
+    about:
+      document.getElementById('about').value.trim(),
+
+    phone:
+      document.getElementById('phone').value.trim(),
+
+    email:
+      document.getElementById('email').value.trim(),
+
+    instagram:
+      document.getElementById('instagram').value.trim(),
+
+    address:
+      document.getElementById('address').value.trim()
+
+  };
+
+
+  saveStatus.textContent =
+    '저장 중...';
+
+
+  try {
+
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/profile?id=eq.1`,
+      {
+        method: 'PATCH',
+
+        headers: {
+
+          apikey:
+            SUPABASE_KEY,
+
+          Authorization:
+            `Bearer ${accessToken}`,
+
+          'Content-Type':
+            'application/json',
+
+          Prefer:
+            'return=representation'
+        },
+
+        body:
+          JSON.stringify(data)
+      }
+    );
+
+
+    if (!response.ok) {
+
+      const errorText =
+        await response.text();
+
+      throw new Error(errorText);
+    }
+
+
+    saveStatus.textContent =
+      '✅ 저장되었습니다.';
+
+
+  } catch (error) {
+
+    saveStatus.textContent =
+      '저장에 실패했습니다.';
+
+    console.error(error);
+  }
+}
+
+
+
+function logout() {
+
+  accessToken = null;
+
+  sessionStorage.removeItem(
+    'adminToken'
+  );
+
+  adminBox.classList.add('hidden');
+
+  loginBox.classList.remove('hidden');
+
+  document.getElementById(
+    'loginPassword'
+  ).value = '';
+
+  loginStatus.textContent =
+    '로그아웃되었습니다.';
+}
+
+</script>
 
 </body>
 </html>
