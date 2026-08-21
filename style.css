@@ -223,3 +223,17 @@
   font-size:12px;
   font-weight:600;
 }
+.quick-icon svg{
+  width:28px;
+  height:28px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.quick:nth-child(1) .quick-icon{color:#62d26f;}
+.quick:nth-child(2) .quick-icon{color:#62d26f;}
+.quick:nth-child(3) .quick-icon{color:#4d9cff;}
+.quick:nth-child(4) .quick-icon{color:#e35bd8;}
