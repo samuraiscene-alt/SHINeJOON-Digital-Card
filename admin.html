@@ -202,7 +202,20 @@
       </button>
 
     </form>
+<div class="gallery-admin">
+  <h2>Gallery 사진 관리</h2>
 
+  <label for="galleryUpload">사진 추가</label>
+
+  <input
+    type="file"
+    id="galleryUpload"
+    accept="image/*"
+    multiple
+  >
+
+  <div id="galleryAdminStatus" class="status"></div>
+</div>
     <div id="saveStatus" class="status"></div>
 
     <button id="logoutBtn" class="logout">
@@ -237,7 +250,11 @@ const loginStatus =
 
 const saveStatus =
   document.getElementById('saveStatus');
+const galleryUpload =
+  document.getElementById('galleryUpload');
 
+const galleryAdminStatus =
+  document.getElementById('galleryAdminStatus');
 
 document
   .getElementById('loginBtn')
@@ -252,7 +269,10 @@ document
 document
   .getElementById('adminForm')
   .addEventListener('submit', saveProfile);
-
+galleryUpload.addEventListener(
+  'change',
+  uploadGalleryImages
+);
 
 
 async function login() {
