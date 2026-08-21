@@ -32,11 +32,26 @@
 </section>
 
     <section class="quick-grid">
-      <a class="quick" href="tel:01052227428"><span>☎</span><b>전화</b></a>
-      <a class="quick" href="sms:01052227428"><span>✉</span><b>문자</b></a>
-      <a class="quick" href="mailto:samuraiscene@gmail.com"><span>＠</span><b>이메일</b></a>
-      <a class="quick" target="_blank" rel="noopener" href="https://www.instagram.com/shine_joon"><span>◎</span><b>Instagram</b></a>
-    </section>
+  <a class="quick" href="tel:01052227428">
+    <span class="quick-icon">☎︎</span>
+    <b>전화</b>
+  </a>
+
+  <a class="quick" href="sms:01052227428">
+    <span class="quick-icon">◌</span>
+    <b>문자</b>
+  </a>
+
+  <a class="quick" href="mailto:samuraiscene@gmail.com">
+    <span class="quick-icon">✉︎</span>
+    <b>이메일</b>
+  </a>
+
+  <a class="quick" target="_blank" rel="noopener" href="https://www.instagram.com/shine_joon">
+    <span class="quick-icon">◎</span>
+    <b>Instagram</b>
+  </a>
+</section>
 
     <section class="card stack">
       <a class="row" href="shinejoon.vcf" download>
@@ -102,3 +117,27 @@
   <script src="app.js"></script>
 </body>
 </html>
+/* ===== IOS STYLE QUICK ICONS ===== */
+
+.quick{
+  min-height:88px;
+  border-radius:20px;
+  background:rgba(255,255,255,.065);
+}
+
+.quick-icon{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:27px;
+  font-weight:300;
+  line-height:1;
+}
+
+.quick b{
+  font-size:12px;
+  font-weight:600;
+}
