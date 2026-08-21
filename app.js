@@ -76,40 +76,53 @@ if(saved.about) $('#aboutText').textContent=saved.about;
     console.error('Supabase connection failed:', error);
   }
 })();
-async function loadGalleryImages() {
+async function loadGalleryFromStorage() {
   const url = 'https://rvhqsgrlrumjwnukapny.supabase.co';
   const key = 'sb_publishable_0qcdqSbgpRgYqSSI1wPpVA_wckk7bKY';
 
   try {
     const response = await fetch(
-      `${url}/rest/v1/gallery_images?select=image_url,sort_order&order=sort_order.asc`,
+      `${url}/storage/v1/object/list/gallery`,
       {
+        method: 'POST',
         headers: {
           apikey: key,
-          Authorization: `Bearer ${key}`
-        }
+          Authorization: `Bearer ${key}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prefix: '',
+          limit: 100,
+          offset: 0,
+          sortBy: {
+            column: 'created_at',
+            order: 'desc'
+          }
+        })
       }
     );
 
     if (!response.ok) {
-      throw new Error(`Gallery load failed: ${response.status}`);
+      throw new Error(`Gallery Storage load failed: ${response.status}`);
     }
 
-    const images = await response.json();
+    const files = await response.json();
 
-    if (!images.length) {
-      return;
-    }
+    const images = files.filter(file =>
+      /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
+    );
+
+    if (!images.length) return;
 
     const galleryImage = document.getElementById('galleryImage');
+    if (!galleryImage) return;
 
-    if (galleryImage) {
-      galleryImage.src = images[0].image_url;
-    }
+    galleryImage.src =
+      `${url}/storage/v1/object/public/gallery/${encodeURIComponent(images[0].name)}`;
 
   } catch (error) {
-    console.error('Gallery load failed:', error);
+    console.error('Gallery Storage load failed:', error);
   }
 }
 
-loadGalleryImages();
+loadGalleryFromStorage();
