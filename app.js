@@ -1,4 +1,4 @@
-const $ = s => document.querySelector(s);
+허const $ = s => document.querySelector(s);
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1800)}
 document.querySelectorAll('.disabled').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();toast(`${el.dataset.label||'이 기능'} 링크를 관리자에서 추가하면 활성화됩니다.`)}));
 $('#shareBtn')?.addEventListener('click', async ()=>{
@@ -107,18 +107,81 @@ async function loadGalleryFromStorage() {
     }
 
     const files = await response.json();
-alert('Storage files: ' + JSON.stringify(files));
+
     const images = files.filter(file =>
-      /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
-    );
+  /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
+);
 
-    if (!images.length) return;
+if (!images.length) return;
 
-    const galleryImage = document.getElementById('galleryImage');
-    if (!galleryImage) return;
+const galleryImage = document.getElementById('galleryImage');
+const prevBtn = document.querySelector('.gallery-prev');
+const nextBtn = document.querySelector('.gallery-next');
+const dotsBox = document.querySelector('.gallery-dots');
+const galleryFrame = document.querySelector('.gallery-frame');
 
-    galleryImage.src =
-      `${url}/storage/v1/object/public/gallery/${encodeURIComponent(images[0].name)}`;
+if (!galleryImage) return;
+
+let currentIndex = 0;
+
+const imageUrls = images.map(file =>
+  `${url}/storage/v1/object/public/gallery/${encodeURIComponent(file.name)}`
+);
+
+function showGalleryImage(index) {
+  currentIndex = (index + imageUrls.length) % imageUrls.length;
+  galleryImage.src = imageUrls[currentIndex];
+
+  if (dotsBox) {
+    dotsBox.innerHTML = '';
+
+    imageUrls.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = i === currentIndex ? 'dot active' : 'dot';
+
+      dot.addEventListener('click', () => {
+        showGalleryImage(i);
+      });
+
+      dotsBox.appendChild(dot);
+    });
+  }
+}
+
+if (prevBtn) {
+  prevBtn.onclick = () => {
+    showGalleryImage(currentIndex - 1);
+  };
+}
+
+if (nextBtn) {
+  nextBtn.onclick = () => {
+    showGalleryImage(currentIndex + 1);
+  };
+}
+
+let touchStartX = 0;
+
+if (galleryFrame) {
+  galleryFrame.ontouchstart = event => {
+    touchStartX = event.changedTouches[0].screenX;
+  };
+
+  galleryFrame.ontouchend = event => {
+    const touchEndX = event.changedTouches[0].screenX;
+    const distance = touchEndX - touchStartX;
+
+    if (Math.abs(distance) < 40) return;
+
+    if (distance < 0) {
+      showGalleryImage(currentIndex + 1);
+    } else {
+      showGalleryImage(currentIndex - 1);
+    }
+  };
+}
+
+showGalleryImage(0);
 
   } catch (error) {
     console.error('Gallery Storage load failed:', error);
