@@ -78,7 +78,7 @@ if(saved.about) $('#aboutText').textContent=saved.about;
 })();
 async function loadGalleryFromStorage() {
   const url = 'https://rvhqsgrlrumjwnukapny.supabase.co';
-  const key = 'sb_publishable_0qcdqSbgpRgYqSSI1wPpVA_wckk7bKY';
+   const key = 'sb_publishable_0qcdqSbgpRgYqSSlIwPpVA_wckk7bKY';
 
   try {
     const response = await fetch(
