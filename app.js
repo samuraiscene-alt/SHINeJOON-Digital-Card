@@ -107,7 +107,7 @@ async function loadGalleryFromStorage() {
     }
 
     const files = await response.json();
-
+alert('Storage files: ' + JSON.stringify(files));
     const images = files.filter(file =>
       /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)
     );
