@@ -527,7 +527,141 @@ function logout() {
   loginStatus.textContent =
     '로그아웃되었습니다.';
 }
+async function uploadGalleryImages(event) {
 
+  const files = Array.from(event.target.files || []);
+
+  if (!files.length) {
+    return;
+  }
+
+  if (!accessToken) {
+    galleryAdminStatus.textContent =
+      '다시 로그인해주세요.';
+    return;
+  }
+
+  galleryAdminStatus.textContent =
+    '사진 업로드 중...';
+
+  try {
+
+    for (const file of files) {
+
+      if (!file.type.startsWith('image/')) {
+        continue;
+      }
+
+      if (file.size > 10 * 1024 * 1024) {
+        throw new Error(
+          '10MB를 초과한 사진이 있습니다.'
+        );
+      }
+
+      const safeName =
+        file.name
+          .replace(/[^a-zA-Z0-9._-]/g, '_');
+
+      const storagePath =
+        `${Date.now()}_${Math.random()
+          .toString(36)
+          .slice(2)}_${safeName}`;
+
+      const uploadResponse =
+        await fetch(
+          `${SUPABASE_URL}/storage/v1/object/gallery/${storagePath}`,
+          {
+            method: 'POST',
+            headers: {
+              apikey: SUPABASE_KEY,
+              Authorization:
+                `Bearer ${accessToken}`,
+              'Content-Type':
+                file.type
+            },
+            body: file
+          }
+        );
+
+      if (!uploadResponse.ok) {
+        const errorText =
+          await uploadResponse.text();
+
+        throw new Error(errorText);
+      }
+
+      const imageUrl =
+        `${SUPABASE_URL}/storage/v1/object/public/gallery/${storagePath}`;
+
+      const orderResponse =
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/gallery_images?select=sort_order&order=sort_order.desc&limit=1`,
+          {
+            headers: {
+              apikey: SUPABASE_KEY,
+              Authorization:
+                `Bearer ${accessToken}`
+            }
+          }
+        );
+
+      if (!orderResponse.ok) {
+        throw new Error(
+          '사진 순서를 불러오지 못했습니다.'
+        );
+      }
+
+      const orderRows =
+        await orderResponse.json();
+
+      const nextOrder =
+        orderRows.length
+          ? Number(orderRows[0].sort_order) + 1
+          : 0;
+
+      const insertResponse =
+        await fetch(
+          `${SUPABASE_URL}/rest/v1/gallery_images`,
+          {
+            method: 'POST',
+            headers: {
+              apikey: SUPABASE_KEY,
+              Authorization:
+                `Bearer ${accessToken}`,
+              'Content-Type':
+                'application/json',
+              Prefer:
+                'return=representation'
+            },
+            body: JSON.stringify({
+              image_url: imageUrl,
+              storage_path: storagePath,
+              sort_order: nextOrder
+            })
+          }
+        );
+
+      if (!insertResponse.ok) {
+        const errorText =
+          await insertResponse.text();
+
+        throw new Error(errorText);
+      }
+    }
+
+    galleryAdminStatus.textContent =
+      '✅ 사진 업로드가 완료되었습니다.';
+
+    galleryUpload.value = '';
+
+  } catch (error) {
+
+    galleryAdminStatus.textContent =
+      '사진 업로드에 실패했습니다.';
+
+    console.error(error);
+  }
+}
 </script>
 
 </body>
