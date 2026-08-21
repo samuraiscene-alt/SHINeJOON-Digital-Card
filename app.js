@@ -76,3 +76,40 @@ if(saved.about) $('#aboutText').textContent=saved.about;
     console.error('Supabase connection failed:', error);
   }
 })();
+async function loadGalleryImages() {
+  const url = 'https://rvhqsgrlrumjwnukapny.supabase.co';
+  const key = 'sb_publishable_0qcdqSbgpRgYqSSI1wPpVA_wckk7bKY';
+
+  try {
+    const response = await fetch(
+      `${url}/rest/v1/gallery_images?select=image_url,sort_order&order=sort_order.asc`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Gallery load failed: ${response.status}`);
+    }
+
+    const images = await response.json();
+
+    if (!images.length) {
+      return;
+    }
+
+    const galleryImage = document.getElementById('galleryImage');
+
+    if (galleryImage) {
+      galleryImage.src = images[0].image_url;
+    }
+
+  } catch (error) {
+    console.error('Gallery load failed:', error);
+  }
+}
+
+loadGalleryImages();
