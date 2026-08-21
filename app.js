@@ -1,4 +1,4 @@
-허const $ = s => document.querySelector(s);
+const $ = s => document.querySelector(s);
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1800)}
 document.querySelectorAll('.disabled').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();toast(`${el.dataset.label||'이 기능'} 링크를 관리자에서 추가하면 활성화됩니다.`)}));
 $('#shareBtn')?.addEventListener('click', async ()=>{
