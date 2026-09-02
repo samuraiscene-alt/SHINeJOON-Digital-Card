@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#f5f5f7" />
   <title>SHINeJOON | Digital Card</title>
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 
 <body>
@@ -83,14 +83,19 @@
         <b>연락처 저장</b>
       </a>
 
-      <button class="utility-item disabled" data-label="카카오톡" type="button">
-        <span class="utility-icon">
+      <a
+        class="utility-item"
+        target="_blank"
+        rel="noopener"
+        href="https://open.kakao.com/o/s78rbMLi"
+      >
+        <span class="utility-icon kakao-icon">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 11.2c0 4-3.6 7.2-8 7.2-1 0-2-.2-2.9-.5L5 20l1.1-3.5C4.8 15.2 4 13.3 4 11.2 4 7.2 7.6 4 12 4s8 3.2 8 7.2z"/>
           </svg>
         </span>
         <b>카카오톡</b>
-      </button>
+      </a>
 
       <a
         class="utility-item"
@@ -119,20 +124,25 @@
       </button>
     </section>
 
-    <section class="portfolio-section">
+    <section class="detail-switch-card">
+      <button class="detail-switch profile-open-btn" id="profileOpenBtn" type="button">
+        <span class="detail-switch-icon">●</span>
+        <span>
+          <b>프로필 보기</b>
+          <small>기본 정보와 소개</small>
+        </span>
+      </button>
+
       <button
-        class="portfolio-cta disabled"
+        class="detail-switch portfolio-open-btn disabled"
         data-label="포트폴리오"
         type="button"
       >
-        <span class="portfolio-icon">▰</span>
-
-        <span class="portfolio-copy">
+        <span class="detail-switch-icon">▰</span>
+        <span>
           <b>포트폴리오 보기</b>
-          <small>프로젝트와 작업물을 확인해보세요</small>
+          <small>프로젝트와 작업물</small>
         </span>
-
-        <span class="portfolio-arrow">›</span>
       </button>
     </section>
 
@@ -237,6 +247,67 @@
 
   </main>
 
+  <div class="profile-modal" id="profileModal" aria-hidden="true">
+    <div class="profile-modal-backdrop" id="profileModalBackdrop"></div>
+
+    <div class="profile-modal-panel">
+      <button
+        class="profile-modal-close"
+        id="profileCloseBtn"
+        type="button"
+        aria-label="프로필 닫기"
+      >
+        ×
+      </button>
+
+      <img
+        class="profile-modal-image"
+        src="profile.jpeg"
+        alt="신이준 프로필 사진"
+      />
+
+      <div class="profile-modal-copy">
+        <p class="profile-modal-label">PROFILE</p>
+        <h2>신이준</h2>
+        <p class="profile-modal-sub">SHINeJOON</p>
+        <p class="profile-modal-bio" id="profileModalBio">
+          프로필 상세 정보가 표시됩니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
   <script src="app.js?v=2"></script>
+
+  <script>
+    const profileOpenBtn = document.getElementById('profileOpenBtn');
+    const profileModal = document.getElementById('profileModal');
+    const profileCloseBtn = document.getElementById('profileCloseBtn');
+    const profileModalBackdrop = document.getElementById('profileModalBackdrop');
+    const profileModalBio = document.getElementById('profileModalBio');
+
+    function openProfileModal() {
+      const currentBio = document.getElementById('displayBio')?.textContent?.trim();
+
+      if (profileModalBio && currentBio) {
+        profileModalBio.textContent = currentBio;
+      }
+
+      profileModal?.classList.add('show');
+      profileModal?.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeProfileModal() {
+      profileModal?.classList.remove('show');
+      profileModal?.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    profileOpenBtn?.addEventListener('click', openProfileModal);
+    profileCloseBtn?.addEventListener('click', closeProfileModal);
+    profileModalBackdrop?.addEventListener('click', closeProfileModal);
+  </script>
+
 </body>
 </html>
