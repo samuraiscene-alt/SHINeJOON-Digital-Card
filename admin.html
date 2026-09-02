@@ -302,7 +302,27 @@
 
       <label>주소</label>
       <input id="address" type="text">
+<label>상단 Hero</label>
 
+<select id="heroMode">
+  <option value="image">사진</option>
+  <option value="video">동영상</option>
+</select>
+
+<label for="heroUpload">
+  상단 사진 / 동영상 선택
+</label>
+
+<input
+  type="file"
+  id="heroUpload"
+  accept="image/*,video/mp4,video/quicktime"
+>
+
+<div
+  id="heroAdminStatus"
+  class="status"
+></div>
       <button
         class="primary"
         type="submit"
@@ -1303,7 +1323,221 @@ function logout() {
   loginStatus.textContent =
     '로그아웃되었습니다.';
 }
+/* =========================
+   HERO 사진 / 동영상 관리
+========================= */
 
+const heroMode =
+  document.getElementById('heroMode');
+
+const heroUpload =
+  document.getElementById('heroUpload');
+
+const heroAdminStatus =
+  document.getElementById('heroAdminStatus');
+
+
+heroUpload.addEventListener(
+  'change',
+  uploadHeroMedia
+);
+
+
+async function uploadHeroMedia(event) {
+
+  const file =
+    event.target.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+
+  if (!accessToken) {
+
+    heroAdminStatus.textContent =
+      '다시 로그인해주세요.';
+
+    return;
+  }
+
+
+  const mode =
+    heroMode.value;
+
+
+  const isImage =
+    file.type.startsWith('image/');
+
+  const isVideo =
+    file.type.startsWith('video/');
+
+
+  if (
+    mode === 'image' &&
+    !isImage
+  ) {
+
+    heroAdminStatus.textContent =
+      '사진 모드에서는 사진 파일을 선택해주세요.';
+
+    heroUpload.value = '';
+
+    return;
+  }
+
+
+  if (
+    mode === 'video' &&
+    !isVideo
+  ) {
+
+    heroAdminStatus.textContent =
+      '동영상 모드에서는 동영상 파일을 선택해주세요.';
+
+    heroUpload.value = '';
+
+    return;
+  }
+
+
+  if (
+    isImage &&
+    file.size > 10 * 1024 * 1024
+  ) {
+
+    heroAdminStatus.textContent =
+      '사진은 10MB 이하로 선택해주세요.';
+
+    heroUpload.value = '';
+
+    return;
+  }
+
+
+  if (
+    isVideo &&
+    file.size > 50 * 1024 * 1024
+  ) {
+
+    heroAdminStatus.textContent =
+      '동영상은 50MB 이하로 선택해주세요.';
+
+    heroUpload.value = '';
+
+    return;
+  }
+
+
+  heroAdminStatus.textContent =
+    '상단 미디어 업로드 중...';
+
+
+  try {
+
+    const extension =
+      file.name
+        .split('.')
+        .pop()
+        .toLowerCase();
+
+
+    const storagePath =
+      mode === 'video'
+        ? `hero-video.${extension}`
+        : `hero-image.${extension}`;
+
+
+    const uploadResponse =
+      await fetch(
+        `${SUPABASE_URL}/storage/v1/object/hero/${storagePath}`,
+        {
+          method: 'POST',
+
+          headers: {
+
+            apikey:
+              SUPABASE_KEY,
+
+            Authorization:
+              `Bearer ${accessToken}`,
+
+            'Content-Type':
+              file.type,
+
+            'x-upsert':
+              'true'
+          },
+
+          body:
+            file
+        }
+      );
+
+
+    if (!uploadResponse.ok) {
+
+      const errorText =
+        await uploadResponse.text();
+
+      throw new Error(
+        errorText
+      );
+    }
+
+
+    const mediaUrl =
+      `${SUPABASE_URL}/storage/v1/object/public/hero/${storagePath}?v=${Date.now()}`;
+
+
+    const saveHeroResponse =
+  await fetch(
+    `${SUPABASE_URL}/rest/v1/profile?id=eq.1`,
+    {
+      method: 'PATCH',
+
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization:
+          `Bearer ${accessToken}`,
+        'Content-Type':
+          'application/json',
+        Prefer:
+          'return=minimal'
+      },
+
+      body: JSON.stringify({
+        hero_mode: mode,
+        hero_media_url: mediaUrl
+      })
+    }
+  );
+
+
+if (!saveHeroResponse.ok) {
+  throw new Error(
+    'Hero 설정 저장 실패'
+  );
+}
+
+
+    heroAdminStatus.textContent =
+      mode === 'video'
+        ? '✅ 상단 동영상이 등록되었습니다.'
+        : '✅ 상단 사진이 등록되었습니다.';
+
+
+    heroUpload.value = '';
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    heroAdminStatus.textContent =
+      '상단 미디어 업로드에 실패했습니다.';
+  }
+}
 </script>
 
 </body>
