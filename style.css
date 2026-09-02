@@ -1,565 +1,313 @@
-*{box-sizing:border-box}
-
-:root{
-  --bg:#f5f5f7;
-  --card:#fff;
-  --text:#1d1d1f;
-  --sub:#6e6e73;
-  --line:#ececf0;
-  --shadow:0 10px 30px rgba(0,0,0,.055);
-}
-
-html{background:var(--bg)}
-
-body{
-  margin:0;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 50% -10%,rgba(223,235,255,.9) 0,rgba(247,247,249,.98) 36%,var(--bg) 70%);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-
-button,a{font:inherit}
-button{cursor:pointer}
-
-.shell{
-  width:min(100%,520px);
-  margin:0 auto;
-  padding:18px 14px 44px;
-}
-
-/* HERO */
-.hero-card{
-  position:relative;
-  height:286px;
-  overflow:hidden;
-  border-radius:24px;
-  background:#eef3f8;
-  box-shadow:var(--shadow);
-}
-
-.hero-image{
-  position:absolute;
-  inset:0 0 0 auto;
-  width:66%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 30%;
-}
-
-.hero-wash{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(90deg,
-      rgba(255,255,255,.98) 0%,
-      rgba(255,255,255,.97) 38%,
-      rgba(255,255,255,.80) 51%,
-      rgba(255,255,255,.18) 69%,
-      rgba(255,255,255,0) 100%);
-}
-
-.hero-copy{
-  position:absolute;
-  left:26px;
-  top:28px;
-  width:49%;
-  z-index:2;
-}
-
-.hero-label{
-  margin:0 0 44px;
-  font-size:11px;
-  letter-spacing:.06em;
-  font-weight:650;
-}
-
-.hero-copy h1{
-  margin:0;
-  font-size:32px;
-  line-height:1.05;
-  letter-spacing:.18em;
-  font-weight:760;
-}
-
-.subname{
-  margin:8px 0 0;
-  font-size:18px;
-  color:#55565b;
-}
-
-.hero-line{
-  width:52px;
-  height:1px;
-  margin:16px 0 14px;
-  background:#d9d9de;
-}
-
-.bio{
-  margin:0;
-  font-size:12px;
-  line-height:1.6;
-  color:#4a4a4f;
-}
-
-/* QUICK */
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin:12px 0;
-  padding:12px 10px;
-  border-radius:22px;
-  background:rgba(255,255,255,.90);
-  box-shadow:var(--shadow);
-}
-
-.quick{
-  min-height:82px;
-  color:var(--text);
-  text-decoration:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-
-.quick-icon{
-  width:44px;
-  height:44px;
-  border-radius:15px;
-  display:grid;
-  place-items:center;
-  background:#fff;
-  box-shadow:0 8px 22px rgba(0,0,0,.06);
-}
-
-.quick-icon svg{
-  width:26px;
-  height:26px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:1.9;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-
-.quick:nth-child(1) .quick-icon,
-.quick:nth-child(2) .quick-icon{color:#30d158}
-
-.quick:nth-child(3) .quick-icon{color:#0a84ff}
-.quick:nth-child(4) .quick-icon{color:#d94fa8}
-
-.quick b{
-  font-size:11px;
-  font-weight:620;
-}
-
-/* UTILITY */
-.utility-card{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  overflow:hidden;
-  margin:12px 0;
-  border-radius:22px;
-  background:rgba(255,255,255,.92);
-  box-shadow:var(--shadow);
-}
-
-.utility-item{
-  min-height:94px;
-  padding:12px 4px;
-  border:0;
-  border-right:1px solid var(--line);
-  color:var(--text);
-  background:transparent;
-  text-decoration:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-
-.utility-item:last-child{
-  border-right:0;
-}
-
-.utility-icon{
-  width:32px;
-  height:32px;
-  display:grid;
-  place-items:center;
-  color:#0a84ff;
-}
-
-.utility-icon svg{
-  width:27px;
-  height:27px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:1.7;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-
-.utility-item:nth-child(2) .utility-icon{
-  color:#1d1d1f;
-}
-
-.utility-item b{
-  font-size:10.5px;
-  white-space:nowrap;
-}
-
-.disabled{
-  opacity:.48;
-}
-
-/* PORTFOLIO */
-.portfolio-section{
-  margin:12px 0;
-}
-
-.portfolio-cta{
-  width:100%;
-  min-height:92px;
-  border:0;
-  border-radius:22px;
-  padding:14px 18px;
-  display:grid;
-  grid-template-columns:54px 1fr 20px;
-  gap:14px;
-  align-items:center;
-  text-align:left;
-  color:var(--text);
-  background:
-    linear-gradient(135deg,#fff 0%,#f4f7ff 100%);
-  box-shadow:var(--shadow);
-}
-
-.portfolio-icon{
-  width:52px;
-  height:52px;
-  display:grid;
-  place-items:center;
-  border-radius:18px;
-  color:#2f63d8;
-  background:#edf2ff;
-  font-size:24px;
-}
-
-.portfolio-copy{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.portfolio-copy b{
-  font-size:16px;
-}
-
-.portfolio-copy small{
-  font-size:11px;
-  color:var(--sub);
-}
-
-.portfolio-arrow{
-  font-size:25px;
-  color:#a6a6ab;
-}
-
-/* GALLERY */
-.gallery-card{
-  margin:12px 0;
-  padding:18px 16px 14px;
-  border-radius:22px;
-  background:rgba(255,255,255,.94);
-  box-shadow:var(--shadow);
-}
-
-.gallery-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:8px;
-}
-
-.gallery-head h2{
-  margin:0;
-  font-size:16px;
-  font-weight:680;
-}
-
-.gallery-slider{
-  display:grid;
-  grid-template-columns:44px minmax(0,1fr) 44px;
-  align-items:center;
-  gap:8px;
-  min-height:390px;
-}
-
-.gallery-stage{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-}
-
-.gallery-frame{
-  width:min(100%,210px);
-  aspect-ratio:3/4;
-  border-radius:14px;
-  overflow:hidden;
-  background:#f2f2f7;
-  touch-action:pan-y;
-  box-shadow:0 9px 24px rgba(0,0,0,.06);
-}
-
-.gallery-frame img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:contain;
-  background:#f2f2f7;
-}
-
-.gallery-arrow{
-  width:38px;
-  height:38px;
-  padding:0;
-  border:1px solid #ededf1;
-  border-radius:50%;
-  color:#343439;
-  background:#fff;
-  font-size:27px;
-  line-height:1;
-  box-shadow:0 5px 16px rgba(0,0,0,.06);
-}
-
-.gallery-dots{
-  min-height:14px;
-  margin-top:10px;
-  display:flex;
-  justify-content:center;
-  gap:7px;
-}
-
-.gallery-dots .dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#dedee3;
-}
-
-.gallery-dots .dot.active{
-  background:#111;
-}
-
-/* SNS */
-.sns-card{
-  margin:12px 0;
-  padding:17px 16px;
-  border-radius:22px;
-  background:rgba(255,255,255,.94);
-  box-shadow:var(--shadow);
-}
-
-.sns-card h2{
-  margin:0 0 14px;
-  font-size:15px;
-}
-
-.sns-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.sns-item{
-  border:0;
-  background:transparent;
-  color:var(--text);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:7px;
-}
-
-.sns-icon{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  font-weight:800;
-  box-shadow:0 8px 18px rgba(0,0,0,.08);
-}
-
-.youtube{
-  background:#ff3b30;
-}
-
-.tiktok{
-  background:#111;
-}
-
-.facebook{
-  background:#1877f2;
-}
-
-.sns-item b{
-  font-size:10.5px;
-}
-
-/* QR */
-.qr-card{
-  margin:12px 0;
-  padding:16px 18px;
-  min-height:128px;
-  border-radius:22px;
-  background:rgba(255,255,255,.94);
-  box-shadow:var(--shadow);
-  display:grid;
-  grid-template-columns:1fr 108px;
-  align-items:center;
-  gap:14px;
-}
-
-.qr-title{
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-}
-
-.qr-scan{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:#f5f9ff;
-  color:#0a84ff;
-  font-size:25px;
-}
-
-.qr-title h2{
-  margin:0 0 7px;
-  font-size:16px;
-}
-
-.qr-title p{
-  margin:0;
-  color:var(--sub);
-  font-size:11px;
-  line-height:1.55;
-}
-
-.qr-placeholder{
-  width:108px;
-  height:108px;
-  padding:8px;
-  border-radius:16px;
-  background:#fff;
-  box-shadow:0 7px 20px rgba(0,0,0,.06);
-}
-
-.qr-placeholder img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:contain;
-}
-
-/* FOOTER */
-footer{
-  padding:14px 4px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:9px;
-  color:#a0a0a5;
-}
-
-footer p{
-  margin:0;
-}
-
-footer a{
-  text-decoration:none;
-  color:#9a9aa0;
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:28px;
-  transform:translateX(-50%);
-  max-width:calc(100% - 32px);
-  padding:10px 15px;
-  border-radius:999px;
-  background:rgba(30,30,32,.92);
-  color:#fff;
-  font-size:12px;
-  z-index:50;
-}
-
-@media(max-width:380px){
-  .shell{
-    padding-left:10px;
-    padding-right:10px;
-  }
-
-  .hero-card{
-    height:260px;
-  }
-
-  .hero-copy{
-    left:20px;
-    top:24px;
-  }
-
-  .hero-copy h1{
-    font-size:28px;
-  }
-
-  .hero-label{
-    margin-bottom:36px;
-  }
-
-  .quick-grid{
-    gap:4px;
-    padding-left:6px;
-    padding-right:6px;
-  }
-
-  .quick-icon{
-    width:40px;
-    height:40px;
-  }
-
-  .utility-item b{
-    font-size:9.5px;
-  }
-
-  .gallery-slider{
-    grid-template-columns:38px minmax(0,1fr) 38px;
-  }
-
-  .gallery-frame{
-    width:min(100%,195px);
-  }
-
-  .qr-card{
-    grid-template-columns:1fr 96px;
-  }
-
-  .qr-placeholder{
-    width:96px;
-    height:96px;
-  }
-}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f5f7" />
+  <title>SHINeJOON | Digital Card</title>
+  <link rel="stylesheet" href="style.css?v=5" />
+</head>
+
+<body>
+  <main class="shell">
+
+    <section class="hero-card">
+      <img id="profileImage" class="hero-image" src="profile.jpeg" alt="신이준 프로필 사진" />
+      <div class="hero-wash"></div>
+
+      <div class="hero-copy">
+        <p class="hero-label">DIGITAL CARD</p>
+        <h1 id="displayName">신이준</h1>
+        <p id="displaySubName" class="subname">SHINeJOON</p>
+        <div class="hero-line"></div>
+        <p id="displayBio" class="bio">
+          프로필 문구를 관리자 화면에서 추가할 수 있습니다.
+        </p>
+      </div>
+    </section>
+
+    <section class="quick-grid" aria-label="빠른 연락">
+      <a class="quick" href="tel:01052227428">
+        <span class="quick-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </span>
+        <b>전화</b>
+      </a>
+
+      <a class="quick" href="sms:01052227428">
+        <span class="quick-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+          </svg>
+        </span>
+        <b>문자</b>
+      </a>
+
+      <a class="quick" href="mailto:samuraiscene@gmail.com">
+        <span class="quick-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="M3 7l9 6 9-6"/>
+          </svg>
+        </span>
+        <b>이메일</b>
+      </a>
+
+      <a
+        class="quick"
+        target="_blank"
+        rel="noopener"
+        href="https://www.instagram.com/shine_joon"
+      >
+        <span class="quick-icon instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1"/>
+          </svg>
+        </span>
+        <b>Instagram</b>
+      </a>
+    </section>
+
+    <section class="utility-card">
+      <a class="utility-item" href="shinejoon.vcf" download>
+        <span class="utility-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21c.8-4.4 3.5-7 8-7s7.2 2.6 8 7"/>
+          </svg>
+        </span>
+        <b>연락처 저장</b>
+      </a>
+
+      <a
+        class="utility-item"
+        target="_blank"
+        rel="noopener"
+        href="https://open.kakao.com/o/s78rbMLi"
+      >
+        <span class="utility-icon kakao-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 11.2c0 4-3.6 7.2-8 7.2-1 0-2-.2-2.9-.5L5 20l1.1-3.5C4.8 15.2 4 13.3 4 11.2 4 7.2 7.6 4 12 4s8 3.2 8 7.2z"/>
+          </svg>
+        </span>
+        <b>카카오톡</b>
+      </a>
+
+      <a
+        class="utility-item"
+        target="_blank"
+        rel="noopener"
+        href="https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C+%EC%84%B1%EB%B6%81%EA%B5%AC+%EC%84%B1%EB%B6%81%EB%A1%9C"
+      >
+        <span class="utility-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"/>
+            <circle cx="12" cy="10" r="2.5"/>
+          </svg>
+        </span>
+        <b>지도</b>
+      </a>
+
+      <button class="utility-item" id="shareBtn" type="button">
+        <span class="utility-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 16V3"/>
+            <path d="M8 7l4-4 4 4"/>
+            <path d="M5 11v8h14v-8"/>
+          </svg>
+        </span>
+        <b>명함 공유</b>
+      </button>
+    </section>
+
+    <section class="detail-switch-card">
+      <button class="detail-switch profile-open-btn" id="profileOpenBtn" type="button">
+        <span class="detail-switch-icon">●</span>
+        <span>
+          <b>프로필 보기</b>
+          <small>기본 정보와 소개</small>
+        </span>
+      </button>
+
+      <button
+        class="detail-switch portfolio-open-btn disabled"
+        data-label="포트폴리오"
+        type="button"
+      >
+        <span class="detail-switch-icon">▰</span>
+        <span>
+          <b>포트폴리오 보기</b>
+          <small>프로젝트와 작업물</small>
+        </span>
+      </button>
+    </section>
+
+    <section class="gallery-card">
+      <div class="gallery-head">
+        <h2>Gallery</h2>
+      </div>
+
+      <div class="gallery-slider">
+        <button
+          class="gallery-arrow gallery-prev"
+          type="button"
+          aria-label="이전 사진"
+        >
+          ‹
+        </button>
+
+        <div class="gallery-stage">
+          <div class="gallery-frame">
+            <img
+              id="galleryImage"
+              src="profile.jpeg"
+              alt="갤러리 사진"
+            />
+          </div>
+
+          <div class="gallery-dots">
+            <span class="dot active"></span>
+          </div>
+        </div>
+
+        <button
+          class="gallery-arrow gallery-next"
+          type="button"
+          aria-label="다음 사진"
+        >
+          ›
+        </button>
+      </div>
+    </section>
+
+    <section class="sns-card">
+      <h2>SNS</h2>
+
+      <div class="sns-grid">
+        <button
+          class="sns-item disabled"
+          data-label="YouTube"
+          type="button"
+        >
+          <span class="sns-icon youtube">▶</span>
+          <b>YouTube</b>
+        </button>
+
+        <button
+          class="sns-item disabled"
+          data-label="TikTok"
+          type="button"
+        >
+          <span class="sns-icon tiktok">♪</span>
+          <b>TikTok</b>
+        </button>
+
+        <button
+          class="sns-item disabled"
+          data-label="Facebook"
+          type="button"
+        >
+          <span class="sns-icon facebook">f</span>
+          <b>Facebook</b>
+        </button>
+      </div>
+    </section>
+
+    <section class="qr-card">
+      <div class="qr-copy">
+        <div class="qr-title">
+          <span class="qr-scan">⌗</span>
+
+          <div>
+            <h2>명함 QR</h2>
+            <p>
+              QR 코드를 스캔하여<br>
+              제 디지털 명함을 저장해보세요.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="qrBox" class="qr-placeholder">
+        <img
+          src="SHINeJOON_Digital_Card_QR_v2.png"
+          alt="SHINeJOON 디지털 명함 QR 코드"
+        />
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 SHINeJOON. All rights reserved.</p>
+      <a href="admin.html">관리자</a>
+    </footer>
+
+  </main>
+
+  <div class="profile-modal" id="profileModal" aria-hidden="true">
+    <div class="profile-modal-backdrop" id="profileModalBackdrop"></div>
+
+    <div class="profile-modal-panel">
+      <button
+        class="profile-modal-close"
+        id="profileCloseBtn"
+        type="button"
+        aria-label="프로필 닫기"
+      >
+        ×
+      </button>
+
+      <img
+        class="profile-modal-image"
+        src="profile.jpeg"
+        alt="신이준 프로필 사진"
+      />
+
+      <div class="profile-modal-copy">
+        <p class="profile-modal-label">PROFILE</p>
+        <h2>신이준</h2>
+        <p class="profile-modal-sub">SHINeJOON</p>
+        <p class="profile-modal-bio" id="profileModalBio">
+          프로필 상세 정보가 표시됩니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=2"></script>
+
+  <script>
+    const profileOpenBtn = document.getElementById('profileOpenBtn');
+    const profileModal = document.getElementById('profileModal');
+    const profileCloseBtn = document.getElementById('profileCloseBtn');
+    const profileModalBackdrop = document.getElementById('profileModalBackdrop');
+    const profileModalBio = document.getElementById('profileModalBio');
+
+    function openProfileModal() {
+      const currentBio = document.getElementById('displayBio')?.textContent?.trim();
+
+      if (profileModalBio && currentBio) {
+        profileModalBio.textContent = currentBio;
+      }
+
+      profileModal?.classList.add('show');
+      profileModal?.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+    }
+
+    function closeProfileModal() {
+      profileModal?.classList.remove('show');
+      profileModal?.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    }
+
+    profileOpenBtn?.addEventListener('click', openProfileModal);
+    profileCloseBtn?.addEventListener('click', closeProfileModal);
+    profileModalBackdrop?.addEventListener('click', closeProfileModal);
+  </script>
+
+</body>
+</html>
