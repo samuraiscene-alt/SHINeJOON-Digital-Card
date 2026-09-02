@@ -322,6 +322,123 @@
     profileOpenBtn?.addEventListener('click', openProfileModal);
     profileCloseBtn?.addEventListener('click', closeProfileModal);
     profileModalBackdrop?.addEventListener('click', closeProfileModal);
+ /* =========================
+   HERO MODE LOAD
+========================= */
+
+(async function loadHeroMode() {
+
+  const heroCard =
+    document.getElementById('heroCard');
+
+  const heroImage =
+    document.getElementById('profileImage');
+
+  const heroVideo =
+    document.getElementById('heroVideo');
+
+
+  if (
+    !heroCard ||
+    !heroImage ||
+    !heroVideo
+  ) {
+    return;
+  }
+
+
+  const SUPABASE_URL =
+    'https://rvhqsgrlrumjwnukapny.supabase.co';
+
+  const SUPABASE_KEY =
+    'sb_publishable_0qcdqSbgpRgYqSSlIwPpVA_wckk7bKY';
+
+
+  try {
+
+    const response =
+      await fetch(
+        `${SUPABASE_URL}/rest/v1/profile?select=hero_mode,hero_media_url&id=eq.1&limit=1`,
+        {
+          headers: {
+            apikey:
+              SUPABASE_KEY,
+
+            Authorization:
+              `Bearer ${SUPABASE_KEY}`
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+    }
+
+
+    const rows =
+      await response.json();
+
+
+    if (!rows.length) {
+      return;
+    }
+
+
+    const hero =
+      rows[0];
+
+
+    if (
+      hero.hero_mode === 'video' &&
+      hero.hero_media_url
+    ) {
+
+      heroVideo.src =
+        hero.hero_media_url;
+
+      heroCard.classList.add(
+        'video-mode'
+      );
+
+
+      try {
+        await heroVideo.play();
+      } catch (error) {
+        console.log(
+          'Hero video autoplay waiting',
+          error
+        );
+      }
+
+    } else if (
+      hero.hero_mode === 'image' &&
+      hero.hero_media_url
+    ) {
+
+      heroImage.src =
+        hero.hero_media_url;
+
+      heroCard.classList.remove(
+        'video-mode'
+      );
+
+      heroVideo.pause();
+      heroVideo.removeAttribute('src');
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      'Hero mode load failed:',
+      error
+    );
+  }
+
+})();
   </script>
 
 </body>
