@@ -11,20 +11,35 @@
 <body>
   <main class="shell">
 
-    <section class="hero-card">
-      <img id="profileImage" class="hero-image" src="profile.jpeg" alt="신이준 프로필 사진" />
-      <div class="hero-wash"></div>
+    <section class="hero-card" id="heroCard">
+  <img
+    id="profileImage"
+    class="hero-image"
+    src="profile.jpeg"
+    alt="신이준 프로필 사진"
+  />
 
-      <div class="hero-copy">
-        <p class="hero-label">DIGITAL CARD</p>
-        <h1 id="displayName">신이준</h1>
-        <p id="displaySubName" class="subname">SHINeJOON</p>
-        <div class="hero-line"></div>
-        <p id="displayBio" class="bio">
-          프로필 문구를 관리자 화면에서 추가할 수 있습니다.
-        </p>
-      </div>
-    </section>
+  <video
+    id="heroVideo"
+    class="hero-video"
+    muted
+    playsinline
+    loop
+    preload="metadata"
+  ></video>
+
+  <div class="hero-wash" id="heroWash"></div>
+
+  <div class="hero-copy" id="heroCopy">
+    <p class="hero-label">DIGITAL CARD</p>
+    <h1 id="displayName">신이준</h1>
+    <p id="displaySubName" class="subname">SHINeJOON</p>
+    <div class="hero-line"></div>
+    <p id="displayBio" class="bio">
+      프로필 문구를 관리자 화면에서 추가할 수 있습니다.
+    </p>
+  </div>
+</section>
 
     <section class="quick-grid" aria-label="빠른 연락">
       <a class="quick" href="tel:01052227428">
