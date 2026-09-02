@@ -780,3 +780,28 @@ footer a{
     height:90px;
   }
 }
+/* =========================
+   HERO VIDEO MODE
+========================= */
+
+.hero-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:none;
+  object-fit:cover;
+  object-position:center;
+  background:#000;
+  z-index:1;
+}
+
+.hero-card.video-mode .hero-video{
+  display:block;
+}
+
+.hero-card.video-mode .hero-image,
+.hero-card.video-mode .hero-wash,
+.hero-card.video-mode .hero-copy{
+  display:none;
+}
